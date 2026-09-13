@@ -1,0 +1,53 @@
+#!/usr/bin/runhaskell
+
+module Parsers (parseLibSVMGame, spec) where
+
+import Text.Parsec
+import Text.Parsec.String (Parser)
+import Data.Char (isDigit)
+
+-- Assuming these types match definitions inside your imported 'Defs' or 'F24' modules
+-- data Event = Event { featureId :: Int, featureValue :: Double }
+-- data Game = Game { gid :: Int, events :: [Event] }
+
+-- | Parses a single LIBSVM feature pair e.g., "1:2.5"
+featureParser :: Parser (Int, Double)
+featureParser = do
+    spaces
+    fId <- many1 digit
+    _   <- char ':'
+    -- Simple double parser capturing standard/decimal values
+    valStr <- many1 (satisfy (\c -> isDigit c || c == '.' || c == '-'))
+    return (read fId, read valStr)
+
+-- | Parses a whole line of LIBSVM as a sequence of execution events
+-- Example format: "1 1:0.5 3:1.2 4:-0.3" where the first number acts as the state/label
+parseLibSVMLine :: Int -> Parser Game
+parseLibSVMLine simulatedGid = do
+    spaces
+    label <- many1 digit
+    -- Parse all trailing space-separated feature pairings
+    pairings <- many featureParser
+    let eventList = map (\(fid, val) -> Event fid val) pairings
+    return $ Game simulatedGid eventList
+
+-- | Main entry point to read an entire dataset file
+parseLibSVMGame :: String -> Either ParseError [Game]
+parseLibSVMGame fileContent = 
+    let linesOfFile = lines fileContent
+        -- Parse each line with an assigned tracking ID
+        parsed = zipWith (\lineNum content -> parse (parseLibSVMLine lineNum) "" content) [1..] linesOfFile
+    -- Sequence the array outcomes to collect clean Game representations
+    in sequence parsed
+
+-- | Inline configuration spec parser logic used by 'cmdLoad'
+spec :: Parser Spec
+spec = do
+    name <- many1 (noneOf ":")
+    _    <- char ':'
+    formulaStr <- many1 anyChar
+    return $ Spec name (parseFormula formulaStr)
+
+-- Placeholder stub for internal LTL formula tree building
+parseFormula :: String -> Formula
+parseFormula s = True -- Replace with real LTL parsing tree translation logic
