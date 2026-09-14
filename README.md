@@ -3,8 +3,12 @@
 <!-- Official README for github.com/auraecosystem/APLCE        -->
 <!-- ========================================================= -->
 
+<p align="center"\>
 <p align="center">
-
+  <img src="assets/banner/aplce-aurora.svg" width="100%">
+</p>
+<h1 align="center">APLCE</h1>
+<p align="center">
 # 🌌 APLCE
 
 ### Aura Programming Languages & Compiler Engineering
@@ -22,7 +26,6 @@
 APLCE (**Aura Programming Languages & Compiler Engineering**) is the flagship open-source repository dedicated to building programming languages, compilers, interpreters, virtual machines, parsers, runtimes, AI-assisted compiler tooling, and the Web4 language ecosystem.
 
 APLCE is simultaneously:
-
 - 📚 A complete compiler engineering curriculum.
 - ⚙️ A compiler toolkit.
 - 🌐 A language encyclopedia.
@@ -84,14 +87,9 @@ Runtime --> LMLM
 Runtime --> VM
 Runtime --> GC
 ```
-
-APLCE is the compiler engineering foundation of the Aura Ecosystem.
-
----
-
 # 📂 Repository Structure
 
-```text
+```console
 APLCE
 │
 ├── README.md
@@ -116,34 +114,48 @@ APLCE
 ├── assignments/
 ├── exams/
 └── web/
-```
 
+```
+```mermaid
+mindmap
+ root((Programming Languages))
+    Functional
+      Lisp
+      Scheme
+      Haskell
+      OCaml
+      ML
+    Systems
+      Rust
+      Zig
+      C
+      Swift
+    Web
+      JavaScript
+      Objective-J
+      Web4
+```
 ---
 
 # 🎓 Official Compiler Engineering Curriculum
-
 ```mermaid
 mindmap
-root((APLCE Curriculum))
-
-Semester I
-Grammar
-Lexical Analysis
-Finite Automata
-
-Semester II
-Recursive Descent
+ root((APLCE Curriculum))
+        Semester I
+     Grammar
+    Lexical Analysis
+    Finite Automata
+    (Semester II)
+    Recursive Descent
 ANTLR
 Yacc
 PEG
 Tree-sitter
-
 Semester III
 AST
 Semantic Analysis
 IR
 Type Systems
-
 Semester IV
 LLVM
 WebAssembly
@@ -690,7 +702,6 @@ Pipeline includes:
 
 ```bash
 git clone https://github.com/auraecosystem/APLCE.git
-
 cd APLCE
 ```
 
