@@ -1,3 +1,4 @@
+</html>
 <p align="center"\>
   <img src="assets/banner/aplce-aurora.svg" width="100%">
 </p>
@@ -7,7 +8,7 @@
 Design • Build • Parse • Compile
 </p>
 
-# APLCE — Aura Programming Languages & Compiler Engineering
+>># APLCE — Aura Programming Languages & Compiler Engineering
 
 <p align="center">
   <img src="assets/banner/aplce-aurora-banner.svg" alt="APLCE Banner" width="100%">
@@ -28,7 +29,6 @@ Design • Build • Parse • Compile
   <img src="https://img.shields.io/badge/LMLM-Functional-16A34A?style=for-the-badge">
   <img src="https://img.shields.io/badge/Open%20Source-GitHub-black?style=for-the-badge">
 </p>
-
 ---
 
 # 🌌 Welcome to APLCE
