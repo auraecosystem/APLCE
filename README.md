@@ -138,30 +138,85 @@ mindmap
 ---
 
 # 🎓 Official Compiler Engineering Curriculum
+```Md
+```
+# APLCE Curriculum — 3D Animated Roadmap
 ```mermaid
-mindmap
- root((APLCE Curriculum))
-        Semester I
-     Grammar
-    Lexical Analysis
-    Finite Automata
-    (Semester II)
-    Recursive Descent
-ANTLR
-Yacc
-PEG
-Tree-sitter
-Semester III
-AST
-Semantic Analysis
-IR
-Type Systems
-Semester IV
-LLVM
-WebAssembly
-Virtual Machine
-Optimization
-Garbage Collection
+%%{init:{
+  "theme":"base",
+  "themeVariables":{
+    "background":"#020617",
+    "primaryColor":"#2563EB",
+    "primaryTextColor":"#FFFFFF",
+    "primaryBorderColor":"#38BDF8",
+    "lineColor":"#7C3AED",
+    "secondaryColor":"#16A34A",
+    "tertiaryColor":"#EA580C",
+    "fontFamily":"Inter"
+  },
+  "flowchart":{"curve":"basis","htmlLabels":true}
+}}%%
+
+flowchart TB
+
+    A(("🚀<br><b>APLCE</b><br>Curriculum"))
+
+    %% Semester Layer
+    A ==> S1["📘 Semester I<br><i>Foundations</i>"]
+    A ==> S2["🟢 Semester II<br><i>Parsing Engines</i>"]
+    A ==> S3["🟠 Semester III<br><i>Compiler Core</i>"]
+    A ==> S4["🟣 Semester IV<br><i>Backend & Runtime</i>"]
+
+    %% Semester I
+    S1 --> G["📖 Grammar"]
+    S1 --> L["🔍 Lexical Analysis"]
+    S1 --> F["⚙️ Finite Automata"]
+
+    %% Semester II
+    S2 --> R["🌲 Recursive Descent"]
+    S2 --> AN["💙 ANTLR (.g4)"]
+    S2 --> YA["🟣 Yacc (.y)"]
+    S2 --> PEG["🟡 PEG Parser"]
+    S2 --> TS["🌿 Tree-sitter"]
+
+    %% Semester III
+    S3 --> AST["🌳 AST"]
+    S3 --> SEM["🧠 Semantic Analysis"]
+    S3 --> IR["📦 Intermediate Representation"]
+    S3 --> TYPE["🛡️ Type Systems"]
+
+    %% Semester IV
+    S4 --> LLVM["⚡ LLVM"]
+    S4 --> WASM["🌐 WebAssembly"]
+    S4 --> VM["💠 Virtual Machine"]
+    S4 --> OPT["🚀 Optimization"]
+    S4 --> GC["♻️ Garbage Collection"]
+
+    %% Compiler Pipeline
+    G -.-> AST
+    L -.-> AST
+    AST --> SEM
+    SEM --> IR
+    IR --> LLVM
+    LLVM --> WASM
+    LLVM --> VM
+    VM --> GC
+
+    %% Animation Classes
+    classDef core fill:#111827,stroke:#7C3AED,stroke-width:5px,color:#fff;
+    classDef blue fill:#1D4ED8,stroke:#60A5FA,stroke-width:3px,color:#fff;
+    classDef green fill:#065F46,stroke:#34D399,stroke-width:3px,color:#fff;
+    classDef orange fill:#9A3412,stroke:#FB923C,stroke-width:3px,color:#fff;
+    classDef purple fill:#581C87,stroke:#C084FC,stroke-width:3px,color:#fff;
+    classDef animate stroke-width:4px,stroke:#38BDF8,animation:slow;
+
+    class A core
+    class S1,G,L,F blue
+    class S2,R,AN,YA,PEG,TS green
+    class S3,AST,SEM,IR,TYPE orange
+    class S4,LLVM,WASM,VM,OPT,GC purple
+
+    linkStyle default stroke:#7C3AED,stroke-width:2px;
 ```
 
 ## Semester I — Language Foundations
@@ -203,9 +258,9 @@ Garbage Collection
 - WebAssembly
 - Native Code Generation
 - Virtual Machines
-
+```
 ---
-
+```
 # ⚙ Compiler Engineering Pipeline
 
 ```mermaid
@@ -256,7 +311,7 @@ Every stage includes:
 
 ## Lexer
 
-```text
+```lex
 Input Source
      │
  Characters
@@ -385,11 +440,11 @@ Targets include:
 
 Example:
 
-```aura
+```.aura.stl
 entity User {
     id: UUID
     trust: T3
-    presence: LCT
+    presence: L
 }
 
 fn verify(user: User) -> bool {
