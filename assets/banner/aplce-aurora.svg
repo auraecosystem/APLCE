@@ -226,7 +226,61 @@ M0 320 C250 250 450 380 700 300 C1000 210 1200 330 1600 260 L1600 500 L0 500 Z"/
     <text x="755" y="397" fill="white" text-anchor="middle">AI Compiler</text>
 
   </g>
+<g transform="translate(1240 250)">
+  <circle r="90" stroke="#38BDF8" opacity="0.3" fill="none"/>
 
+  <circle r="8" fill="#A855F7">
+    <animateMotion
+      dur="8s"
+      repeatCount="indefinite"
+      path="M90 0 A90 90 0 1 1 -90 0 A90 90 0 1 1 90 0"/>
+  </circle>
+
+  <polygon
+    points="0,-35 30,-18 30,18 0,35 -30,18 -30,-18"
+    fill="#06B6D4">
+
+    <animateTransform
+      attributeName="transform"
+      type="rotate"
+      from="0 0 0"
+      to="360 0 0"
+      dur="10s"
+      repeatCount="indefinite"/>
+  </polygon>
+</g>
+  <g transform="translate(800 250)">
+  <circle r="60" fill="none" stroke="#7C3AED" stroke-width="4"/>
+
+  <path d="M0-45L40 20L-40 20Z"
+        fill="#38BDF8">
+
+    <animateTransform
+      attributeName="transform"
+      type="rotate"
+      from="0 0 0"
+      to="-360 0 0"
+      dur="20s"
+      repeatCount="indefinite"/>
+  </path>
+</g>
+  <g transform="translate(1240 250)">
+  <polygon
+    points="0,-70 60,-35 60,35 0,70 -60,35 -60,-35"
+    fill="none"
+    stroke="url(#aurora)"
+    stroke-width="3">
+
+    <animateTransform
+      attributeName="transform"
+      attributeType="XML"
+      type="rotate"
+      from="0 0 0"
+      to="360 0 0"
+      dur="12s"
+      repeatCount="indefinite"/>
+  </polygon>
+</g>
   <!-- Footer -->
   <rect y="486" width="1600" height="14" fill="url(#web4)"/>
 
