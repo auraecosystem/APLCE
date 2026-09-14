@@ -1,4 +1,7 @@
-README.md — APLCE 3D Animated Mermaid Curriculum
+<p align="center">
+  <img src="assets/banner/aplce-aurora.svg" width="100%" alt="APLCE Aurora Banner">
+</p>
+<img width="1029" height="322" alt="image" src="https://github.com/user-attachments/assets/324fe2dc-d05b-4532-8754-c8c0d4d8b4ab" />
 
 # APLCE Curriculum — 3D Animated Roadmap
 ```mermaid
