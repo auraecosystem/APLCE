@@ -1,0 +1,251 @@
+#!/usr/bin/env runhaskell
+
+module Parsers
+  ( Event(..)
+  , Game(..)
+  , Dataset(..)
+  , Formula(..)
+  , Spec(..)
+  , parseLibSVMGame
+  , parseLibSVMLine
+  , spec
+  , datasetStats
+  ) where
+
+import Text.Parsec
+import Text.Parsec.String (Parser)
+
+import Data.List
+import Data.Char
+import qualified Data.Map.Strict as Map
+
+------------------------------------------------------------
+-- Core Types
+------------------------------------------------------------
+
+data Event = Event
+  { featureId    :: Int
+  , featureValue :: Double
+  } deriving (Eq, Show)
+
+data Game = Game
+  { gid    :: Int
+  , label  :: Int
+  , events :: [Event]
+  } deriving (Eq, Show)
+
+data Dataset = Dataset
+  { games :: [Game]
+  } deriving (Eq, Show)
+
+------------------------------------------------------------
+-- Formula / Spec Types
+------------------------------------------------------------
+
+data Formula
+    = Truth
+    | Atom String
+    | Not Formula
+    | And Formula Formula
+    | Or Formula Formula
+    | Next Formula
+    | Eventually Formula
+    | Always Formula
+    deriving (Eq, Show)
+
+data Spec = Spec
+    { specName    :: String
+    , specFormula :: Formula
+    } deriving (Eq, Show)
+
+------------------------------------------------------------
+-- Utility Parsers
+------------------------------------------------------------
+
+lexeme :: Parser a -> Parser a
+lexeme p = spaces *> p <* spaces
+
+integer :: Parser Int
+integer = read <$> many1 digit
+
+signedInt :: Parser Int
+signedInt = do
+    s <- optionMaybe (char '-')
+    n <- integer
+    return $ case s of
+        Just _  -> -n
+        Nothing -> n
+
+double :: Parser Double
+double = do
+    sign <- option "" (string "-")
+    whole <- many1 digit
+    frac  <- option "" (do
+                d <- char '.'
+                f <- many digit
+                return (d:f))
+    expo  <- option "" (do
+                e <- oneOf "eE"
+                sg <- option "" (string "+" <|> string "-")
+                ex <- many1 digit
+                return (e:sg ++ ex))
+    return $ read (sign ++ whole ++ frac ++ expo)
+
+------------------------------------------------------------
+-- Feature Parser
+------------------------------------------------------------
+
+featureParser :: Parser Event
+featureParser = lexeme $ do
+    fid <- integer
+    _ <- char ':'
+    val <- double
+
+    if fid <= 0
+       then fail "Feature IDs must be positive."
+       else return (Event fid val)
+
+------------------------------------------------------------
+-- Comment Parser
+------------------------------------------------------------
+
+commentParser :: Parser ()
+commentParser = do
+    spaces
+    _ <- char '#'
+    _ <- many anyChar
+    return ()
+
+------------------------------------------------------------
+-- LIBSVM Line Parser
+------------------------------------------------------------
+
+parseLibSVMLine :: Int -> Parser Game
+parseLibSVMLine gidNum = do
+
+    spaces
+
+    lbl <- signedInt
+
+    feats <- many featureParser
+
+    optional commentParser
+
+    eof
+
+    let duplicateFeatures =
+            Map.keys $
+            Map.filter (>1) $
+            Map.fromListWith (+)
+              [(featureId e,1::Int) | e <- feats]
+
+    if not (null duplicateFeatures)
+       then fail $
+            "Duplicate feature IDs: "
+            ++ show duplicateFeatures
+       else return $
+            Game
+              gidNum
+              lbl
+              (sortOn featureId feats)
+
+------------------------------------------------------------
+-- Whole Dataset Parser
+------------------------------------------------------------
+
+parseLibSVMGame :: String -> Either ParseError Dataset
+parseLibSVMGame contents = do
+
+    parsedGames <-
+        sequence
+            [ parse (parseLibSVMLine n) ("line " ++ show n) txt
+            | (n,txt) <- zip [1..] validLines
+            ]
+
+    return (Dataset parsedGames)
+
+  where
+    validLines =
+        filter (not . null)
+        $ map strip
+        $ lines contents
+
+    strip =
+        reverse
+        . dropWhile isSpace
+        . reverse
+        . dropWhile isSpace
+
+------------------------------------------------------------
+-- Dataset Statistics
+------------------------------------------------------------
+
+datasetStats :: Dataset -> [(String,String)]
+datasetStats (Dataset gs) =
+    [ ("Games", show totalGames)
+    , ("Events", show totalEvents)
+    , ("Unique Features", show uniqueFeatures)
+    , ("Max Feature ID", show maxFeature)
+    ]
+  where
+
+    totalGames = length gs
+
+    totalEvents = sum (map (length . events) gs)
+
+    featureIds =
+        concatMap
+          (map featureId . events)
+          gs
+
+    uniqueFeatures =
+        length (nub featureIds)
+
+    maxFeature =
+        if null featureIds
+           then 0
+           else maximum featureIds
+
+------------------------------------------------------------
+-- Formula Parser
+------------------------------------------------------------
+
+formula :: Parser Formula
+formula = buildExpressionParser table term
+
+term :: Parser Formula
+term =
+      (Truth <$ string "true")
+  <|> (Atom <$> many1 letter)
+  <|> between (char '(') (char ')') formula
+
+table =
+    [ [Prefix (Not <$ char '!')]
+    , [Prefix (Next <$ char 'X')]
+    , [Prefix (Eventually <$ char 'F')]
+    , [Prefix (Always <$ char 'G')]
+    , [Infix (And <$ string "&&") AssocLeft]
+    , [Infix (Or <$ string "||") AssocLeft]
+    ]
+
+------------------------------------------------------------
+-- Spec Parser
+------------------------------------------------------------
+
+spec :: Parser Spec
+spec = do
+    spaces
+
+    name <- many1 (alphaNum <|> oneOf "_-")
+
+    spaces
+
+    _ <- char ':'
+
+    spaces
+
+    f <- formula
+
+    eof
+
+    return (Spec name f)
