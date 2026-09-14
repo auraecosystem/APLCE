@@ -1,3 +1,12 @@
+<p align="center"\>
+  <img src="assets/banner/aplce-aurora.svg" width="100%">
+</p>
+<h1 align="center">APLCE</h1>
+
+<p align="center">
+Design • Build • Parse • Compile
+</p>
+
 # APLCE — Aura Programming Languages & Compiler Engineering
 
 <p align="center">
