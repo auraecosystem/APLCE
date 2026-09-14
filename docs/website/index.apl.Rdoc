@@ -1,6 +1,6 @@
-For **APLCE / LMLM**, the best approach is to merge everything into **one complete standard library conformance test file** rather than separate snippets. This becomes the official `math.lmlm` (or `tests/math_core.scm`) for the language runtime.
+>>For **APLCE / LMLM**, the best approach is to merge everything into **one complete standard library conformance test file** rather than separate snippets. This becomes the official `math.lmlm` (or `tests/math_core.scm`) for the language runtime.
 
-Below is a unified version that combines your original tests with the upgraded mathematical, functional, statistical, calculus, algebra, and runtime features into one coherent test suite.
+>>Below is a unified version that combines your original tests with the upgraded mathematical, functional, statistical, calculus, algebra, and runtime features into one coherent test suite.
 
 ## APLCE / LMLM Unified Mathematics & Functional Test Suite v3.0
 
