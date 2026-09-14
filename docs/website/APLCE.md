@@ -1,8 +1,7 @@
-Let's do it. 🚀
+>> We're officially starting APLCE v1.0
+>> As a real GitHub monorepo for `auraecosystem/APLCE`.
 
-We're officially starting APLCE v1.0 as a real GitHub monorepo for `auraecosystem/APLCE`.
-
-This won't fit in one message—it's the equivalent of bootstrapping an entire open-source university. I'll build it as a staged repository rewrite, exactly like a production project.
+> This won't fit in one message—it's the equivalent of bootstrapping an entire open-source university. I'll build it as a staged repository rewrite, exactly like a production project.
 
 # APLCE v1.0 — Repository Bootstrap (Stage 1)
 
