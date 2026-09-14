@@ -4,6 +4,7 @@ APLCE: (Aura Programming Languages & Compiler Engineering) is the one you’ve b
 Repository: auraecosystem/APLCE  (GitHub organization repository).
 ---
 
+
 🚀 Execute Mode (^| Execute): APLCE v1.0 Master Build
 
 treating this as a full repository architecture and roadmap.
